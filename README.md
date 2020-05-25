@@ -23,7 +23,7 @@ I don't take any legal responsibility for the recepies, that this program produc
 it is a good idea to cook these, but it can be a really good recepie, that no one has every made. So you can be the first one (I dn't know if that's good
 to be sure).
 
-## Things you might want to do
+# Things you might want to do
 ### Assist
 If you want supply code to the project, write a request first and explain your code to me.
 ### Problems / Bugs
