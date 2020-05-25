@@ -25,7 +25,7 @@ to be sure).
 
 ## Things you might want to do
 ### Assist
-if you want supply code to the project, write a request first and explain your code to me.
+If you want supply code to the project, write a request first and explain your code to me.
 ### Problems / Bugs
 If you find any bugs or problems, open an issue and I will try to fix it.
 ### Fork
