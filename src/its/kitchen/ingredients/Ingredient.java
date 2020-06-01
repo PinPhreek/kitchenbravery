@@ -33,6 +33,10 @@ public class Ingredient {
 		
 	}
 	
+	public void displayIngredient() {
+		System.out.printf("%-20s | %2d\n", this.name, this.type);
+	}
+	
 	//Meat
 	public static final int TYPE_MEAT = 1;
 	public static final int TYPE_SAUSAGE = 2;
