@@ -1,19 +1,20 @@
 package its.kitchen.main;
 
 import java.util.ArrayList;
-
 import its.kitchen.ingredients.Ingredient;
 import its.kitchen.io.Load;
+import its.kitchen.modes.CompletelyRandom;
 
 public class Main {
 
 	public static String data_version = null;
 	public static String version = "0.1_testing";
-	public static String dataPath = "ingredients.txt";
+	//public static String dataPath = "ingredients.txt";
+	public static String dataPath = "/home/max/ingredients.txt";
 	
 	public static ArrayList<Ingredient> ingerdients;
 	
-	public static int mode = 1;
+	public static int mode = 0;//1;
 	
 	public static boolean verbose = false;
 	
@@ -74,6 +75,12 @@ public class Main {
 		for (i = 0; i < ingerdients.size(); i++) {
 			ingerdients.get(i).displayIngredient();
 		}
+		if(mode == MODE_COMPLETELY_RANDOM) {
+		
+			CompletelyRandom.generateRecipe();
+			
+		}
+		
 	}
 	
 	public static final int MODE_COMPLETELY_RANDOM = 0;

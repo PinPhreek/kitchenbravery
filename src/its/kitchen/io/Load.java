@@ -7,7 +7,7 @@ import its.kitchen.ingredients.Ingredient;
 import its.kitchen.main.Main;
 
 public class Load {
-
+ 
 	public static ArrayList<Ingredient> readIngredients(String path) {//Don't care about / and \
 
 		String s = null, s2 = null /*for some nice switcheroo*/, name = null;
@@ -69,6 +69,7 @@ public class Load {
 			sc.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			System.exit(-1);
 		}
 		return data;
 	}
