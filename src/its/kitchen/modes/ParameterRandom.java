@@ -2,15 +2,15 @@ package its.kitchen.modes;
 
 public class ParameterRandom {
 
-    private int maxSteps = 0;
-    private int maxIngredients = 0;
+    private static int maxSteps = 0;
+    private static int maxIngredients = 0;
 
     public ParameterRandom(int maxIngredients, int maxSteps){
 
         if (maxIngredients > 0)
-            this.maxIngredients = maxIngredients;
+            ParameterRandom.maxIngredients = maxIngredients;
         if (maxSteps > 0)
-            this.maxSteps = maxSteps;
+            ParameterRandom.maxSteps = maxSteps;
         init();
     }
     public ParameterRandom(){
@@ -27,13 +27,23 @@ public class ParameterRandom {
 
     }
 
+    public static void generateRecipe(){
+        if (maxIngredients < 1 || maxSteps <1) {
+            System.err.println("Invalid number of ingredients or steps!\nAborting!");
+            return;
+        }
+
+
+
+    }
+
     public int getMaxIngredients() {
         return maxIngredients;
     }
 
     public void setMaxIngredients(int maxIngredients) {
         if (maxIngredients > 0)
-            this.maxIngredients = maxIngredients;
+            ParameterRandom.maxIngredients = maxIngredients;
     }
 
     public int getMaxSteps() {
@@ -42,6 +52,6 @@ public class ParameterRandom {
 
     public void setMaxSteps(int maxSteps) {
         if (maxSteps > 0)
-            this.maxSteps = maxSteps;
+            ParameterRandom.maxSteps = maxSteps;
     }
 }
