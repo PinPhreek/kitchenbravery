@@ -12,17 +12,18 @@ public class CompletelyRandom {
 	
 	public static void generateRecipe() {
 		
-		int maxIngredents = 0;
+		int maxIngredients = 0;
 		int maxSteps      = 0;
 		ArrayList<Ingredient> data2 = new ArrayList<Ingredient>();
-		
+
 		do {
-			maxIngredents = r.nextInt(Main.ingerdients.size());
-			if (maxIngredents == 0)continue;
-			maxSteps      = r.nextInt(maxIngredents);
+			maxIngredients = r.nextInt(Main.ingerdients.size()); //set the maximum of ingredients
+			if (maxIngredients == 0)continue;                    //look for edge-cases
+				maxSteps = r.nextInt(maxIngredients);            //we don't want more steps than ingredients
 		}while(maxSteps == 0);
-		System.out.println(maxIngredents + " " + maxSteps);
-		
+		System.out.println(maxIngredients + " " + maxSteps);
+
+		//fill array with random ingredients, but only one time
 		int j = 0;
 		boolean found = false;
 		
@@ -38,7 +39,7 @@ public class CompletelyRandom {
 			if(!found) data2.add(Main.ingerdients.get(j));
 			found = false;
 			
-		}while(maxIngredents > data2.size());
+		}while(maxIngredients > data2.size());
 		
 		for(int i = 0; i < data2.size(); i++) {
 			System.out.println(data2.get(i).name);
