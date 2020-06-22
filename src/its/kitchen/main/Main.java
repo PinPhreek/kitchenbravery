@@ -70,7 +70,9 @@ public class Main {
 					System.err.println("No number of steps specified!\nGoing with maximum 5 steps.");
 				}
 				else {
-					/*HIER CODE EINFÜGEN*/
+					if (args[i+1].equalsIgnoreCase("random")) mode = 0;
+					//else if (args[i+1].equalsIgnoreCase("parameters") && i+3 < args.length && args[i+2]) mode = 1;
+					//else if (args[i+1].equalsIgnoreCase("laying") && args[i+2].equalsIgnoreCase("around"))
 				}
 			}
 			else if (args[i].equals("-u")){

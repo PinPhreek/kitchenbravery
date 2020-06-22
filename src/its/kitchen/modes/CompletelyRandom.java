@@ -36,7 +36,11 @@ public class CompletelyRandom {
 					break;
 				}
 			}
-			if(!found) data2.add(Main.ingerdients.get(j));
+			if(!found){
+				data2.add(Main.ingerdients.get(j));
+				if (Main.verbose)
+					System.out.println("Using ingredient: " + Main.ingerdients.get(j));
+			}
 			found = false;
 			
 		}while(maxIngredients > data2.size());
