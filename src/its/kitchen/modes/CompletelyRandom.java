@@ -40,7 +40,8 @@ public class CompletelyRandom {
 			found = false;
 			
 		}while(maxIngredients > data2.size());
-		
+
+		//output
 		for(int i = 0; i < data2.size(); i++) {
 			System.out.println(data2.get(i).name);
 		}

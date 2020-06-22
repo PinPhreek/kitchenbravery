@@ -1,6 +1,8 @@
 package its.kitchen.main;
 
 import java.util.ArrayList;
+import java.util.Locale;
+
 import its.kitchen.ingredients.Ingredient;
 import its.kitchen.io.Load;
 import its.kitchen.modes.CompletelyRandom;
@@ -26,6 +28,7 @@ public class Main {
 		 * -v Specifies if the user wants more output.
 		 * -s Specifies the maximum number of steps, the user wants to make.
 		 * -i Specifies the maximum number of ingredients, the user wants to use.
+		 * -u Specifies the units that are used in th program. If not specified the local locale will be used.
 		 * -h displays a help-page.
 		 * */
 		for (i = 0; i < args.length; i++) {
@@ -37,6 +40,7 @@ public class Main {
 				System.out.printf ("%-2s %s\n", "-v", "Enables verbose output");
 				System.out.printf ("%-2s %s\n", "-s", "How much steps you want to do at maximum.");
 				System.out.printf ("%-2s %s\n", "-i", "How many ingredients you want to use.");
+				System.out.printf ("%-2s %s\n", "-u", "What units you use. If not specified, the system-language will be used.");
 				System.out.printf ("%-2s %s\n", "-h", "Displays this help message.");
 				
 				System.exit(0);
@@ -66,6 +70,13 @@ public class Main {
 					System.err.println("No number of steps specified!\nGoing with maximum 5 steps.");
 				}
 				else {
+					/*HIER CODE EINFÜGEN*/
+				}
+			}
+			else if (args[i].equals("-u")){
+				if (i+1 >= args.length)
+					System.err.println("No language specified!\nGoing with " + Locale.getDefault().getLanguage() + ".");
+				else{
 					/*HIER CODE EINFÜGEN*/
 				}
 			}
