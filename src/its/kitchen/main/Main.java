@@ -6,6 +6,7 @@ import java.util.Locale;
 import its.kitchen.ingredients.Ingredient;
 import its.kitchen.io.Load;
 import its.kitchen.modes.CompletelyRandom;
+import its.kitchen.modes.ParameterRandom;
 
 public class Main {
 
@@ -17,11 +18,13 @@ public class Main {
 	public static ArrayList<Ingredient> ingerdients;
 	
 	public static int mode = 0;//1;
+	public static ParameterRandom paramRand;
 	
 	public static boolean verbose = false;
 	
 	public static void main(String[] args) {
 		int i = 0;
+		paramRand = new ParameterRandom();
 		/**
 		 * -f Specifies the data-file. If not present, look in current directory for ingredients.txt.
 		 * -m Specifies the mode, this program should use.
@@ -55,11 +58,29 @@ public class Main {
 				}
 			}
 			else if(args[i].equals("-m")) {
-				if(i + 1 >= args.length) {
-					System.err.println("No mode specified!\nUsing default.");
+				if(i + 1 >= args.length) { //these 2 can't be merged! DON'T EVEN THINK ABOUT IT!
+					System.err.println("No mode specified!\nProceeding with parameter-mode: 5(max) steps, 10(max) ingredients.");
+					mode = MODE_PARAMETER_RANDOM;
+					paramRand.setMaxSteps(5);
+					paramRand.setMaxIngredients(10);
+				}
+				else if (args[i+1].contains("-")){
+					System.err.println("No mode specified!\nProceeding with parameter-mode: 5 steps, 10 ingredients.");
+					mode = MODE_PARAMETER_RANDOM;
+					paramRand.setMaxSteps(5);
+					paramRand.setMaxIngredients(10);
 				}
 				else {
-					/*HIER CODE EINFÜGEN*/
+					if (args[i+1].equalsIgnoreCase("random")) mode = MODE_COMPLETELY_RANDOM;
+					else if (args[i+1].equalsIgnoreCase("parameter")) mode = MODE_PARAMETER_RANDOM;
+					else if (args[i+1].equalsIgnoreCase("lying") && i + 2>= args.length){
+						if (args[i+2].equalsIgnoreCase("around")) mode = MODE_LYING_AROUND; //we don't want an index out of bounds
+						else{
+							mode = MODE_PARAMETER_RANDOM;
+							paramRand.setMaxSteps(5);
+							paramRand.setMaxIngredients(10);
+						}
+					}
 				}
 			}
 			else if(args[i].equals("-v")) {
@@ -68,11 +89,19 @@ public class Main {
 			else if(args[i].equals("-s")) {
 				if (i+1 >= args.length) {
 					System.err.println("No number of steps specified!\nGoing with maximum 5 steps.");
+					paramRand.setMaxSteps(5);
+					continue;
 				}
-				else {
-					if (args[i+1].equalsIgnoreCase("random")) mode = 0;
-					//else if (args[i+1].equalsIgnoreCase("parameters") && i+3 < args.length && args[i+2]) mode = 1;
-					//else if (args[i+1].equalsIgnoreCase("laying") && args[i+2].equalsIgnoreCase("around"))
+				else if (args[i+1].contains("-")){
+					System.err.println("No number of steps specified!\nGoing with maximum 5 steps.");
+					paramRand.setMaxSteps(5);
+					continue;
+				}
+				try {
+					paramRand.setMaxIngredients(Integer.valueOf(args[i + 2]));
+				}catch(Exception e){
+					System.err.println(args[i+2] + " is not a number!\nProceeding with 5 steps.");
+					paramRand.setMaxSteps(5);
 				}
 			}
 			else if (args[i].equals("-u")){
