@@ -8,7 +8,7 @@ import its.kitchen.io.Load;
 import its.kitchen.modes.CompletelyRandom;
 import its.kitchen.modes.ParameterRandom;
 
-public class Main{
+public class Main {
 
     public static String data_version = null;
     public static String version = "0.1_testing";
@@ -16,6 +16,7 @@ public class Main{
     public static String dataPath = "/home/max/ingredients.txt";
 
     public static ArrayList<Ingredient> ingerdients;
+    public static ArrayList<String> layingAround;
 
     public static int mode = 0;//1;
     public static ParameterRandom paramRand;
@@ -25,7 +26,7 @@ public class Main{
 
     public static Scanner sc;
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         int i = 0;
         paramRand = new ParameterRandom();
         /**
@@ -37,8 +38,8 @@ public class Main{
          * -u Specifies the units that are used in th program. If not specified the local locale will be used.
          * -h displays a help-page.
          * */
-        for (i = 0; i < args.length; i++){
-            if(args[i].equals("-h")){
+        for (i = 0; i < args.length; i++) {
+            if (args[i].equals("-h")) {
 
                 System.out.println("Kitchen Bravery v." + version + " help.");
                 System.out.printf("%-2s %s\n", "-f", "Specifies the data-file. If not present, look in current directory for ingredients.txt.");
@@ -50,36 +51,36 @@ public class Main{
                 System.out.printf("%-2s %s\n", "-h", "Displays this help message.");
 
                 System.exit(0);
-            }else if(args[i].equals("-f")){
-                if(i + 1 >= args.length){
+            } else if (args[i].equals("-f")) {
+                if (i + 1 >= args.length) {
                     System.err.println("No file specified!\nUsing ingredients.txt");
-                }else if(args[i + 1].contains("-")) System.err.println("No file specified!\nUsing ingredients.txt");
-                else{
+                } else if (args[i + 1].contains("-")) System.err.println("No file specified!\nUsing ingredients.txt");
+                else {
                     dataPath = args[i + 1];
                     i++;
                 }
-            }else if(args[i].equals("-m")){
-                if(i + 1 >= args.length){ //these 2 can't be merged! DON'T EVEN THINK ABOUT IT!
+            } else if (args[i].equals("-m")) {
+                if (i + 1 >= args.length) { //these 2 can't be merged! DON'T EVEN THINK ABOUT IT!
                     System.err.println("No mode specified!\nProceeding with parameter-mode: 5(max) steps, 10(max) ingredients.");
                     mode = MODE_PARAMETER_RANDOM;
                     paramRand.setMaxSteps(5);
                     paramRand.setMaxIngredients(10);
-                }else if(args[i + 1].contains("-")){
+                } else if (args[i + 1].contains("-")) {
                     System.err.println("No mode specified!\nProceeding with parameter-mode: 5 steps, 10 ingredients.");
                     mode = MODE_PARAMETER_RANDOM;
                     paramRand.setMaxSteps(5);
                     paramRand.setMaxIngredients(10);
-                }else{
-                    if(args[i + 1].equalsIgnoreCase("random")){
+                } else {
+                    if (args[i + 1].equalsIgnoreCase("random")) {
                         mode = MODE_COMPLETELY_RANDOM;
                         i++;
-                    }else if(args[i + 1].equalsIgnoreCase("parameter")){
+                    } else if (args[i + 1].equalsIgnoreCase("parameter")) {
                         mode = MODE_PARAMETER_RANDOM;
                         i++;
-                    }else if(args[i + 1].equalsIgnoreCase("lying") && i + 2 >= args.length){
-                        if(args[i + 2].equalsIgnoreCase("around"))
+                    } else if (args[i + 1].equalsIgnoreCase("lying") && i + 2 >= args.length) {
+                        if (args[i + 2].equalsIgnoreCase("around"))
                             mode = MODE_LYING_AROUND; //we don't want an index out of bounds
-                        else{
+                        else {
                             mode = MODE_PARAMETER_RANDOM;
                             paramRand.setMaxSteps(5);
                             paramRand.setMaxIngredients(10);
@@ -87,113 +88,126 @@ public class Main{
                         i += 2;
                     }
                 }
-            }else if(args[i].equals("-v")){
+            } else if (args[i].equals("-v")) {
                 verbose = true;
-            }else if(args[i].equals("-s")){
-                if(i + 1 >= args.length){
+            } else if (args[i].equals("-s")) {
+                if (i + 1 >= args.length) {
                     System.err.println("No number of steps specified!\nGoing with maximum 5 steps.");
                     paramRand.setMaxSteps(5);
                     continue;
-                }else if(args[i + 1].contains("-")){
+                } else if (args[i + 1].contains("-")) {
                     System.err.println("No number of steps specified!\nGoing with maximum 5 steps.");
                     paramRand.setMaxSteps(5);
                     continue;
                 }
-                try{
+                try {
                     paramRand.setMaxSteps(Integer.valueOf(args[i + 1]));
-                } catch (Exception e){
+                } catch (Exception e) {
                     System.err.println(args[i + 1] + " is not a number!\nProceeding with 5 steps.");
                     paramRand.setMaxSteps(5);
                 }
                 i++;
-            }else if(args[i].equals("-i")){
-                if(i + 1 >= args.length){
+            } else if (args[i].equals("-i")) {
+                if (i + 1 >= args.length) {
                     System.err.println("No maximum number of ingredients specified!\nProceeding with 10 ingredients.");
                     paramRand.setMaxIngredients(10);
                     continue;
-                }else if(args[i + 1].contains("-")){
+                } else if (args[i + 1].contains("-")) {
                     System.err.println("No maximum number of ingredients specified!\nProceeding with 10 ingredients.");
                     paramRand.setMaxIngredients(10);
                     continue;
                 }
-                try{
+                try {
                     paramRand.setMaxIngredients(Integer.valueOf(args[i + 1]));
-                } catch (Exception e){
+                } catch (Exception e) {
                     System.err.println(args[i + 1] + " is not a number!\nProceeding with 10 ingredients.");
                     paramRand.setMaxIngredients(10);
                 }
                 i++;
-            }else if(args[i].equals("-u")){
-                if(i + 1 >= args.length) {
+            } else if (args[i].equals("-u")) {
+                if (i + 1 >= args.length) {
                     System.err.println("No language specified!\nGoing with " + Locale.getDefault().getLanguage() + ".");
                     degreesC = !Locale.getDefault().getLanguage().toLowerCase().contains("us");
-                }else if (args[i+1].contains("-")){
+                } else if (args[i + 1].contains("-")) {
                     System.err.println("No language specified!\nGoing with " + Locale.getDefault().getLanguage() + ".");
                     degreesC = !Locale.getDefault().getLanguage().toLowerCase().contains("us");
-                }
-                else{
-                    degreesC = !args[i+1].toLowerCase().contains("us");
+                } else {
+                    degreesC = !args[i + 1].toLowerCase().contains("us");
                 }
             }
             System.out.println(args[i]);
         }
-        try{
+        try {
             ingerdients = Load.readIngredients(dataPath);
-        } catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
 
         }
-        for (i = 0; i < ingerdients.size(); i++){
+        for (i = 0; i < ingerdients.size(); i++) {
             ingerdients.get(i).displayIngredient();
         }
-        if(mode == MODE_COMPLETELY_RANDOM){
+        if (mode == MODE_COMPLETELY_RANDOM) {
 
             CompletelyRandom.generateRecipe();
 
-        }
-        else if (mode == MODE_PARAMETER_RANDOM){
-            if (paramRand.getMaxIngredients() == 0){
+        } else if (mode == MODE_PARAMETER_RANDOM) {
+            if (paramRand.getMaxIngredients() == 0) {
                 sc = new Scanner(System.in);
                 do {
                     System.out.print("How many ingredients do you want to use (max.)\n> ");
                     try {
                         paramRand.setMaxIngredients(Integer.valueOf(sc.nextLine()));
-                        if (paramRand.getMaxIngredients() <= 0){
+                        if (paramRand.getMaxIngredients() <= 0) {
                             System.err.println("The program needs a number greater than 0 to proceed!");
                             continue;
                         }
                     } catch (NumberFormatException e) {
                         System.err.println("That was not a number!");
                     }
-                }while(paramRand.getMaxIngredients() <= 0);
+                } while (paramRand.getMaxIngredients() <= 0);
             }
-            if (paramRand.getMaxSteps() <= 0 && paramRand.getMaxIngredients() > 0){
+            if (paramRand.getMaxSteps() <= 0 && paramRand.getMaxIngredients() > 0) {
                 sc = new Scanner(System.in);
                 do {
                     System.out.print("How many steps do you want to make (max.)\n> ");
                     try {
                         paramRand.setMaxSteps(Integer.valueOf(sc.nextLine()));
-                        if (paramRand.getMaxIngredients() <= 0){
+                        if (paramRand.getMaxIngredients() <= 0) {
                             System.err.println("The program needs a number greater than 0 to proceed!");
                             continue;
-                        }
-                        else if (paramRand.getMaxSteps() > paramRand.getMaxIngredients()){
+                        } else if (paramRand.getMaxSteps() > paramRand.getMaxIngredients()) {
                             System.err.println("The number of steps has to be smaller than the number of ingredients");
                         }
                     } catch (NumberFormatException e) {
                         System.err.println("That was not a number!");
                     }
-                }while(paramRand.getMaxSteps() <= 0);
+                } while (paramRand.getMaxSteps() <= 0);
             }
             paramRand.generateRecipe();
-        }
-        else if (mode == MODE_LYING_AROUND){
+        } else if (mode == MODE_LYING_AROUND) {
+            layingAround = new ArrayList<String>();
             System.out.print("Type\"end\" to end your input. > ");
             String s = null;
             sc = new Scanner(System.in);
+            boolean found = false;
             do {
                 s = sc.nextLine();
+
                 /*test if is in database*/
-            }while(!s.equalsIgnoreCase("end"));
+                for (int j = 0; j < ingerdients.size(); j++) {
+                    if (s.equalsIgnoreCase(ingerdients.get(j).name)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) {
+                    System.out.println(s + " was added.");
+                    layingAround.add(s);/*nacher eine Methode Basteln, die ingredient finden und in andere liste schreiben*/
+                }
+                else{
+                    System.err.println(s + " was not found! Make sure you don't have any typos and the ingredient is in the database, then try again.");
+                }
+                /*TODO ADD CODE HERE*/
+            } while (!s.equalsIgnoreCase("end"));
         }
     }
 
