@@ -27,7 +27,7 @@ public class ParameterRandom {
 
     }
 
-    public static void generateRecipe(){
+    public void generateRecipe(){
         if (maxIngredients < 1 || maxSteps <1) {
             System.err.println("Invalid number of ingredients or steps!\nAborting!");
             return;

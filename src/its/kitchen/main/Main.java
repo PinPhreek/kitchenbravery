@@ -1,8 +1,7 @@
 package its.kitchen.main;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Locale;
+import java.util.*;
 
 import its.kitchen.ingredients.Ingredient;
 import its.kitchen.io.Load;
@@ -21,7 +20,10 @@ public class Main{
     public static int mode = 0;//1;
     public static ParameterRandom paramRand;
 
+    public static boolean degreesC = true;
     public static boolean verbose = false;
+
+    public static Scanner sc;
 
     public static void main(String[] args){
         int i = 0;
@@ -115,17 +117,22 @@ public class Main{
                     continue;
                 }
                 try{
-                    paramRand.setMaxIngredients(Integer.valueOf(args[i+1]));
-                }catch (Exception e){
-                    System.err.println(args[i+1] + " is not a number!\nProceeding with 10 ingredients.");
+                    paramRand.setMaxIngredients(Integer.valueOf(args[i + 1]));
+                } catch (Exception e){
+                    System.err.println(args[i + 1] + " is not a number!\nProceeding with 10 ingredients.");
                     paramRand.setMaxIngredients(10);
                 }
                 i++;
             }else if(args[i].equals("-u")){
-                if(i + 1 >= args.length)
+                if(i + 1 >= args.length) {
                     System.err.println("No language specified!\nGoing with " + Locale.getDefault().getLanguage() + ".");
+                    degreesC = !Locale.getDefault().getLanguage().toLowerCase().contains("us");
+                }else if (args[i+1].contains("-")){
+                    System.err.println("No language specified!\nGoing with " + Locale.getDefault().getLanguage() + ".");
+                    degreesC = !Locale.getDefault().getLanguage().toLowerCase().contains("us");
+                }
                 else{
-                    /*HIER CODE EINFÜGEN*/
+                    degreesC = !args[i+1].toLowerCase().contains("us");
                 }
             }
             System.out.println(args[i]);
@@ -143,7 +150,51 @@ public class Main{
             CompletelyRandom.generateRecipe();
 
         }
-
+        else if (mode == MODE_PARAMETER_RANDOM){
+            if (paramRand.getMaxIngredients() == 0){
+                sc = new Scanner(System.in);
+                do {
+                    System.out.print("How many ingredients do you want to use (max.)\n> ");
+                    try {
+                        paramRand.setMaxIngredients(Integer.valueOf(sc.nextLine()));
+                        if (paramRand.getMaxIngredients() <= 0){
+                            System.err.println("The program needs a number greater than 0 to proceed!");
+                            continue;
+                        }
+                    } catch (NumberFormatException e) {
+                        System.err.println("That was not a number!");
+                    }
+                }while(paramRand.getMaxIngredients() <= 0);
+            }
+            if (paramRand.getMaxSteps() <= 0 && paramRand.getMaxIngredients() > 0){
+                sc = new Scanner(System.in);
+                do {
+                    System.out.print("How many steps do you want to make (max.)\n> ");
+                    try {
+                        paramRand.setMaxSteps(Integer.valueOf(sc.nextLine()));
+                        if (paramRand.getMaxIngredients() <= 0){
+                            System.err.println("The program needs a number greater than 0 to proceed!");
+                            continue;
+                        }
+                        else if (paramRand.getMaxSteps() > paramRand.getMaxIngredients()){
+                            System.err.println("The number of steps has to be smaller than the number of ingredients");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.err.println("That was not a number!");
+                    }
+                }while(paramRand.getMaxSteps() <= 0);
+            }
+            paramRand.generateRecipe();
+        }
+        else if (mode == MODE_LYING_AROUND){
+            System.out.print("Type\"end\" to end your input. > ");
+            String s = null;
+            sc = new Scanner(System.in);
+            do {
+                s = sc.nextLine();
+                /*test if is in database*/
+            }while(!s.equalsIgnoreCase("end"));
+        }
     }
 
     public static final int MODE_COMPLETELY_RANDOM = 0;
