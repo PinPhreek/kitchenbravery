@@ -14,6 +14,7 @@ public class Load {
 		boolean inIngredients = false, inHeader = false;
 		int type = 0;
 		ArrayList<Ingredient> data = new ArrayList<>();
+		boolean found = false;
 		Scanner sc = new Scanner(new File(path));
 		while(sc.hasNextLine()) {
 			if(inIngredients && inHeader) {
@@ -52,7 +53,11 @@ public class Load {
 				}
 				if(s.contains("<name>") && s.contains("</name>")) {
 					name = s.replace("<name>", "").replace("</name>", "");
-					data.add(new Ingredient(name, type));
+					for (int i = 0; i < data.size(); i++) {//no duplicates
+						if (data.get(i).name.equalsIgnoreCase(name)) found = true;
+					}
+					if (!found) data.add(new Ingredient(name, type));
+					found = false;
 				}
 				else if (s.contains("</type>")) {
 					type = 0;
