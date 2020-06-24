@@ -6,6 +6,7 @@ import java.util.*;
 import its.kitchen.ingredients.Ingredient;
 import its.kitchen.io.Load;
 import its.kitchen.modes.CompletelyRandom;
+import its.kitchen.modes.LyingAround;
 import its.kitchen.modes.ParameterRandom;
 
 public class Main {
@@ -16,10 +17,10 @@ public class Main {
     public static String dataPath = "/home/max/ingredients.txt";
 
     public static ArrayList<Ingredient> ingerdients;
-    public static ArrayList<String> layingAround;
 
     public static int mode = 0;//1;
     public static ParameterRandom paramRand;
+    public static LyingAround lyr;
 
     public static boolean degreesC = true;
     public static boolean verbose = false;
@@ -29,6 +30,7 @@ public class Main {
     public static void main(String[] args) {
         int i = 0;
         paramRand = new ParameterRandom();
+        lyr = new LyingAround();
         /**
          * -f Specifies the data-file. If not present, look in current directory for ingredients.txt.
          * -m Specifies the mode, this program should use.
@@ -184,7 +186,6 @@ public class Main {
             }
             paramRand.generateRecipe();
         } else if (mode == MODE_LYING_AROUND) {
-            layingAround = new ArrayList<String>();
             System.out.print("Type\"end\" to end your input. > ");
             String s = null;
             sc = new Scanner(System.in);
@@ -201,12 +202,11 @@ public class Main {
                 }
                 if (found) {
                     System.out.println(s + " was added.");
-                    layingAround.add(s);/*nacher eine Methode Basteln, die ingredient finden und in andere liste schreiben*/
+                    lyr.addIngredient(s);
                 }
                 else{
                     System.err.println(s + " was not found! Make sure you don't have any typos and the ingredient is in the database, then try again.");
                 }
-                /*TODO ADD CODE HERE*/
             } while (!s.equalsIgnoreCase("end"));
         }
     }
