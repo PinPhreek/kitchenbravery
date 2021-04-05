@@ -68,6 +68,7 @@ public class Load {
 			}
 		}
 		sc.close();
+		data.trimToSize();//make smaller
 		return data;
 	}
 	
